@@ -16,6 +16,10 @@
 
         <div id="signUp">
             <h2>Sign Up</h2>
+            <label>Name: </label><br>
+            <input type="text" id="name" placeholder="Enter your username"><br>
+            
+
             <label>Email: </label><br>
             <input type="text" id="newMail" placeholder="Enter your email">
             <label id="newMailMessage"></label><br>
@@ -48,23 +52,31 @@
         </div>
 
         <div id="menu">
+            <button onclick="Menu()">Home</button>
             <button onclick="DisplayMedicine()" id="medicineButton">Medicine</button>
             <button onclick="Purchase()" id="purchaseButton">Purchase</button>
-            <button>Cancel purchase</button>
-            <button>Top-up</button>
+            <button onclick="Cancel()">Cancel purchase</button>
+            <button onclick="TopUpPage()">Top-up</button>
             <button onclick="OrderHistory()">Order history</button>
-            <button>Show balance</button>
+            <button onclick="ShowBalance()">Show balance</button>
         </div>
 
         <div id="purchase">
             <h2>Purchase Medicine</h2>
-            <input id="medicineInput" type="text" placeholder="Enter MedicineID"><br>
+            
             <input id="quantityInput" type="number" placeholder="Enter quantity"><br>
-            <button onclick="PurchaseMedicine()">OK</button>
+
             <button onclick="Menu()">Back</button>
         </div>
 
-        <label id="medicine"></label>
+        
+
+        <div id="topUp">
+            <input id="amount" type="text" placeholder="Enter the amount: ">
+            <button onclick="AddAmount()">Add</button>
+        </div>
+
+        <label id="medicine">Welcome User</label>
        
 
     </body>
