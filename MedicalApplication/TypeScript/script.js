@@ -49,8 +49,8 @@ MedicineArray.push(new Medicines("Paracetamol", 18, 20));
 MedicineArray.push(new Medicines("Stepsils", 23, 10));
 MedicineArray.push(new Medicines("Vicks", 13, 30));
 var OrderArray = new Array;
-OrderArray.push(new Order(MedicineArray[0].medicineID, MedicineArray[0].medicineName, MedicineArray[0].quantity, 45));
-OrderArray.push(new Order("MID102", "Stepsils", 2, 23));
+OrderArray.push(new Order("MID101", "Paracetamol", 5, 90));
+OrderArray.push(new Order("MID102", "Stepsils", 2, 46));
 //functions
 function SignInPage() {
     var signIn = document.getElementById("signIn");
@@ -104,14 +104,14 @@ function SignIn() {
 }
 function DisplayMedicine() {
     var medicine = document.getElementById("medicine");
+    var toAdd = document.getElementById("toAdd");
     var menu = document.getElementById("menu");
     menu.style.display = "none";
     medicine.style.display = "block";
     medicine.innerHTML = "<h2>Medicine List</h2><br>";
-    MedicineArray.forEach(function (element) {
-        medicine.innerHTML += "Medicine Name: ".concat(element.medicineName, "   |   Price: ").concat(element.price, "   |    Quantity: ").concat(element.quantity, "<br>");
-    });
-    medicine.innerHTML += "<button onclick = 'Menu()'>Back</button>";
+    toAdd.style.display = "block";
+    medicine.innerHTML += "<button onclick = 'Menu()'>Back</button> <br>";
+    RenderTable();
 }
 function Purchase() {
     var medicine = document.getElementById("medicine");
@@ -141,18 +141,14 @@ function PurchaseMedicine(medicineInput) {
                     if (currentUser.balance >= element.price * quantityInput) {
                         //medicine.innerHTML = "";
                         balance = true;
-                        alert("Medicine ordered successfully!");
                         element.quantity -= quantityInput;
                         currentUser.balance -= element.price * quantityInput;
                         total = element.price * quantityInput;
                         OrderArray.push(new Order(element.medicineID, element.medicineName, quantityInput, total));
-                        medicine.innerHTML = "";
-                        MedicineArray.forEach(function (element) {
-                            medicine.innerHTML += "|   Medicine Name: ".concat(element.medicineName, "   |   Price: ").concat(element.price, "   |    Quantity: ").concat(element.quantity, "   |   <button onclick=\"PurchaseMedicine('").concat(element.medicineID, "')\">Buy</button><br><br>");
-                        });
+                        medicine.innerHTML = "<h2>".concat(element.medicineName, " Ordered Successfully!");
                     }
                     else if (!balance) {
-                        //alert("Insufficient balance");
+                        alert("Insufficient balance");
                     }
                 }
                 else {
@@ -172,8 +168,12 @@ function Menu() {
     var menu = document.getElementById("menu");
     var purchase = document.getElementById("purchase");
     var medicine = document.getElementById("medicine");
+    var dataTable = document.getElementById("dataTable");
+    var toAdd = document.getElementById("toAdd");
+    dataTable.style.display = "none";
     menu.style.display = "flex";
     purchase.style.display = "none";
+    toAdd.style.display = "none";
     medicine.innerText = "Hello ".concat(currentUser.name);
     medicine.style.display = "block";
     var topUp = document.getElementById("topUp");
@@ -188,7 +188,7 @@ function OrderHistory() {
     medicine.style.display = "block";
     medicine.innerHTML = "<h2>Order History</h2>";
     OrderArray.forEach(function (element) {
-        medicine.innerHTML += "OrderID: ".concat(element.orderID, "   |   MedicineID: ").concat(element.medicineID, "   |   MedicineName: ").concat(element.medicineName, "   |   Quantity: ").concat(element.count, "<br>");
+        medicine.innerHTML += "MedicineName: ".concat(element.medicineName, "   |   Quantity: ").concat(element.count, "   |   Total: ").concat(element.totalAmount, "<br>");
     });
 }
 function TopUpPage() {
@@ -218,10 +218,11 @@ function Cancel() {
     medicine.style.display = "block";
     medicine.innerHTML = "<h2>Order History</h2>";
     OrderArray.forEach(function (element) {
-        medicine.innerHTML += "OrderID: ".concat(element.orderID, "   |   Medicine Name: ").concat(element.medicineName, "   |   Quantity: ").concat(element.count, "   |   <button onclick=\"CancelOrder('").concat(element.orderID, "','").concat(element.count, "')\">Cancel</button>  |<br><br>");
+        medicine.innerHTML += "|   Medicine Name: ".concat(element.medicineName, "   |   Quantity: ").concat(element.count, "   |   Total: ").concat(element.totalAmount, "   |   <button onclick=\"CancelOrder('").concat(element.orderID, "','").concat(element.count, "')\">Cancel</button>  |<br><br>");
     });
 }
 function CancelOrder(orderID, quantity) {
+    var medicine = document.getElementById("medicine");
     var _loop_1 = function (i) {
         if (OrderArray[i].orderID == orderID) {
             currentUser.balance += OrderArray[i].totalAmount;
@@ -230,10 +231,47 @@ function CancelOrder(orderID, quantity) {
                     element.quantity += Number(quantity);
                 }
             });
-            delete (OrderArray[i]);
+            OrderArray.splice(i, 1);
+            medicine.innerHTML = "<h2>Order cancelled!</h2>";
         }
     };
     for (var i = 0; i < OrderArray.length; i++) {
         _loop_1(i);
     }
 }
+var AddItem = function () {
+    var newMedicine = document.getElementById("newMedicine");
+    var price = document.getElementById("price");
+    var quantity = document.getElementById("quantity");
+    if (newMedicine.value != "" && price.value != "" && quantity.value != "") {
+        var exist_1 = false;
+        MedicineArray.forEach(function (item) {
+            if (item.medicineName.toLowerCase() == newMedicine.value.toLowerCase()) {
+                exist_1 = true;
+                item.price = Number(price.value);
+                item.quantity += Number(quantity.value);
+                alert("exist");
+            }
+        });
+        if (!exist_1) {
+            MedicineArray.push(new Medicines(newMedicine.value, parseInt(price.value), parseInt(quantity.value)));
+        }
+    }
+    else
+        alert("Enter the inputs");
+    RenderTable();
+    newMedicine.value = "";
+    price.value = "";
+    quantity.value = "";
+};
+var RenderTable = function () {
+    var tableBody = document.querySelector("#dataTable tbody");
+    var dataTable = document.getElementById("dataTable");
+    dataTable.style.display = "block";
+    tableBody.innerHTML = "";
+    MedicineArray.forEach(function (item) {
+        var row = document.createElement("tr");
+        row.innerHTML = "<td>".concat(item.medicineName, "</td>\n                         <td>").concat(item.price, "</td>\n                         <td>").concat(item.quantity, "</td>");
+        tableBody.appendChild(row);
+    });
+};

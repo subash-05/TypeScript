@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "V3SLDyOIN8s5n3Ol7VZwZXP4/Xsl/NDw3HP0Q9eSBns=",
+  "Source": "MedicalApplicationAPI",
+  "BasePath": "_content/MedicalApplicationAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

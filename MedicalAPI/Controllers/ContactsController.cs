@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ContactsController : ControllerBase
+    [Route("api/[controller]")]   //route to reach the controller (square brackets replace the name of the controller)
+    [ApiController]  //mentioning that the application is a type of Api controller
+    public class ContactsController : ControllerBase  //Inheriting from controller base
     {
         private static List<Contacts> _Contacts = new List<Contacts>
         {
@@ -38,7 +38,6 @@ namespace MedicalAPI.Controllers
         //Adding new medicine
         //POST: api/Contacts
         [HttpPost]
-
         public IActionResult PostMedicine([FromBody] Contacts medicine)  //post request
         {
             _Contacts.Add(medicine);

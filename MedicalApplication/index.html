@@ -63,7 +63,7 @@
 
         <div id="purchase">
             <h2>Purchase Medicine</h2>
-            
+            <h3>Enter the quantity: </h3>
             <input id="quantityInput" type="number" placeholder="Enter quantity"><br>
 
             <button onclick="Menu()">Back</button>
@@ -77,7 +77,25 @@
         </div>
 
         <label id="medicine">Welcome User</label>
-       
 
+        <div id="toAdd">
+                <input id="newMedicine" type="text" placeholder="Enter medicine name" required>
+                <input id="price" type="number" placeholder="Enter price" required>
+                <input id="quantity" type="number" placeholder="Enter quantity" required>
+                <button onclick="AddItem()" style='background-color: #000; color: #fff'>Add / Edit</button> 
+        </div>
+       
+        <br><table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Medicine Name</th>
+                    <th>Price</th>
+                    <th>Quantity Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--table data will be inserted here-->
+            </tbody>
+        </table>
     </body>
 </html>

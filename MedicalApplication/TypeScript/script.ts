@@ -84,8 +84,8 @@ MedicineArray.push(new Medicines("Vicks", 13, 30));
 
 let OrderArray : Array<Order> = new Array<Order>;
 
-OrderArray.push(new Order(MedicineArray[0].medicineID, MedicineArray[0].medicineName, MedicineArray[0].quantity, 45));
-OrderArray.push(new Order("MID102", "Stepsils", 2, 23));
+OrderArray.push(new Order("MID101", "Paracetamol", 5, 90));
+OrderArray.push(new Order("MID102", "Stepsils", 2, 46));
 
 
 //functions
@@ -160,17 +160,17 @@ function SignIn()
 function DisplayMedicine()
 {
     let medicine = document.getElementById("medicine") as HTMLDivElement;
-    
+    let toAdd = document.getElementById("toAdd") as HTMLDivElement;
     let menu = document.getElementById("menu") as HTMLDivElement;
 
     menu.style.display = "none";
     medicine.style.display = "block";
-    medicine.innerHTML = "<h2>Medicine List</h2><br>";
-    MedicineArray.forEach(element => {
-        medicine.innerHTML += `Medicine Name: ${element.medicineName}   |   Price: ${element.price}   |    Quantity: ${element.quantity}<br>`
-    })
 
-    medicine.innerHTML += "<button onclick = 'Menu()'>Back</button>";
+    medicine.innerHTML = "<h2>Medicine List</h2><br>";
+    toAdd.style.display = "block";
+    medicine.innerHTML += "<button onclick = 'Menu()'>Back</button> <br>";
+    
+    RenderTable();
 }
 
 function Purchase()
@@ -215,20 +215,15 @@ function PurchaseMedicine(medicineInput)
                         {
                             //medicine.innerHTML = "";
                             balance = true;
-                            alert("Medicine ordered successfully!");
                             element.quantity -= quantityInput;
                             currentUser.balance -= element.price * quantityInput;
                             total = element.price * quantityInput;
                             OrderArray.push(new Order(element.medicineID, element.medicineName, quantityInput,total));
-                            medicine.innerHTML = "";
-                            MedicineArray.forEach(element => {
-                                medicine.innerHTML += `|   Medicine Name: ${element.medicineName}   |   Price: ${element.price}   |    Quantity: ${element.quantity}   |   <button onclick="PurchaseMedicine('${element.medicineID}')">Buy</button><br><br>`
-                            }) 
-                            
+                            medicine.innerHTML = `<h2>${element.medicineName} Ordered Successfully!`;
                         }
                         else if(!balance)
                         {
-                            //alert("Insufficient balance");
+                            alert("Insufficient balance");
                         }
                     }
                     else
@@ -253,8 +248,13 @@ function Menu()
     let menu = document.getElementById("menu") as HTMLDivElement;
     let purchase = document.getElementById("purchase") as HTMLDivElement;
     let medicine = document.getElementById("medicine") as HTMLDivElement;
+    const dataTable = document.getElementById("dataTable") as HTMLTableElement;
+    let toAdd = document.getElementById("toAdd") as HTMLDivElement;
+
+    dataTable.style.display = "none";
     menu.style.display = "flex";
     purchase.style.display = "none";
+    toAdd.style.display = "none";
     
     medicine.innerText = `Hello ${currentUser.name}`;
     medicine.style.display = "block";
@@ -275,7 +275,7 @@ function OrderHistory()
     medicine.innerHTML = "<h2>Order History</h2>";
 
     OrderArray.forEach(element => {
-        medicine.innerHTML += `OrderID: ${element.orderID}   |   MedicineID: ${element.medicineID}   |   MedicineName: ${element.medicineName}   |   Quantity: ${element.count}<br>`;
+        medicine.innerHTML += `MedicineName: ${element.medicineName}   |   Quantity: ${element.count}   |   Total: ${element.totalAmount}<br>`;
     })
 }
 
@@ -318,17 +318,18 @@ function Cancel()
     let topUp = document.getElementById("topUp") as HTMLDivElement;
     topUp.style.display = "none";
 
-    let medicine = document.getElementById("medicine") as HTMLDivElement;
+    let medicine = document.getElementById("medicine") as HTMLLabelElement;
     medicine.style.display = "block";
     medicine.innerHTML = "<h2>Order History</h2>";
 
     OrderArray.forEach(element => {
-        medicine.innerHTML += `OrderID: ${element.orderID}   |   Medicine Name: ${element.medicineName}   |   Quantity: ${element.count}   |   <button onclick="CancelOrder('${element.orderID}','${element.count}')">Cancel</button>  |<br><br>`;
+        medicine.innerHTML += `|   Medicine Name: ${element.medicineName}   |   Quantity: ${element.count}   |   Total: ${element.totalAmount}   |   <button onclick="CancelOrder('${element.orderID}','${element.count}')">Cancel</button>  |<br><br>`;
     })
 }
 
 function CancelOrder(orderID, quantity)
 {
+    let medicine = document.getElementById("medicine") as HTMLLabelElement;
     for(let i=0; i<OrderArray.length; i++)
     {
         if(OrderArray[i].orderID == orderID)
@@ -340,7 +341,56 @@ function CancelOrder(orderID, quantity)
                     element.quantity += Number(quantity);
                 }
             })
-            delete(OrderArray[i]);
+            OrderArray.splice(i,1);
+            medicine.innerHTML = "<h2>Order cancelled!</h2>";
+        }
+    }  
+}
+
+
+const AddItem = () => {
+    let newMedicine = (document.getElementById("newMedicine") as HTMLInputElement);
+    const price = (document.getElementById("price") as HTMLInputElement);
+    const quantity = (document.getElementById("quantity") as HTMLInputElement);
+
+    if(newMedicine.value != "" && price.value != "" && quantity.value != "")
+    {
+        let exist : boolean = false;
+        MedicineArray.forEach(item => {
+            if(item.medicineName.toLowerCase() == newMedicine.value.toLowerCase())
+            {
+                exist = true;
+                item.price = Number(price.value);
+                item.quantity += Number(quantity.value);
+                alert("exist");
+            }
+        })
+        if(!exist)
+        {
+            MedicineArray.push(new Medicines(newMedicine.value, parseInt(price.value), parseInt(quantity.value)));
         }
     }
+    else alert("Enter the inputs");
+    RenderTable();
+    newMedicine.value = "";
+    price.value = "";
+    quantity.value = "";
 }
+
+
+const RenderTable = () => {
+    const tableBody = document.querySelector("#dataTable tbody") as HTMLTableSectionElement;
+    const dataTable = document.getElementById("dataTable") as HTMLTableElement;
+    dataTable.style.display = "block";
+    tableBody.innerHTML = "";
+
+    MedicineArray.forEach(item => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `<td>${item.medicineName}</td>
+                         <td>${item.price}</td>
+                         <td>${item.quantity}</td>`;
+
+        tableBody.appendChild(row);
+    });
+};
