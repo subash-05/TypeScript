@@ -1,8 +1,8 @@
-var currentUser;
+var currentUser : any;
 
-//let userIDAuto = 2;
-let medicineIDAuto = 303;
-//let orderIDAuto = 200;
+let userIDAuto : any = undefined;
+let medicineIDAuto : any = undefined;
+let orderIDAuto : any = undefined;
 let defaultBalance : number= 5000;
 
 
@@ -10,11 +10,11 @@ let defaultBalance : number= 5000;
 interface User
 {
     userID : number;
-    name : string;
-    mail : string;
+    userName : string;
+    emailID : string;
     phone : string;
-    newPass : string;
-    confirmPass : string;
+    password : string;
+    confirmPassword : string;
     balance: number;
 }
 
@@ -36,7 +36,6 @@ interface Order
 }
 
 
-
 //array
 /*
 let UserArray : Array<NewUser> = new Array<NewUser>; //let UserArray : NewUser[]
@@ -46,10 +45,34 @@ let OrderArray : Array<Order> = new Array<Order>;
 
 
 //functions
+function toRegister()
+{
+    let register = document.getElementById("register") as HTMLDivElement;
+    register.style.display = "block";
+    let login = document.getElementById("login") as HTMLDivElement;
+    login.style.display = "none";
+    let loginButton = document.getElementById("loginButton") as HTMLButtonElement;
+    loginButton.style.backgroundColor = "white";
+    let registerButton = document.getElementById("registerButton") as HTMLButtonElement;
+    registerButton.style.backgroundColor = "rgb(174, 202, 255)";
+}
+
+function toLogin()
+{
+    let login = document.getElementById("login") as HTMLDivElement;
+    login.style.display = "block";
+    let register = document.getElementById("register") as HTMLDivElement;
+    register.style.display = "none";
+    let registerButton = document.getElementById("registerButton") as HTMLButtonElement;
+    registerButton.style.backgroundColor = "white";
+    let loginButton = document.getElementById("loginButton") as HTMLButtonElement;
+    loginButton.style.backgroundColor = "rgb(174, 202, 255)";
+}
+
 async function SignInPage()
 {
     let signIn = document.getElementById("signIn") as HTMLDivElement;
-    var login = document.getElementById("loginPage") as HTMLDivElement;
+    let login = document.getElementById("loginPage") as HTMLDivElement;
     let exists = document.getElementById("existingUsers") as HTMLLabelElement;
     signIn.style.display = "block";   
     login.style.display = "none";
@@ -60,14 +83,14 @@ async function SignInPage()
 
     for(let i=0; i<UserArray.length; i++)
     {
-        exists.innerHTML += `Email: ${UserArray[i].mail}     |     PhoneNumber: ${UserArray[i].phone}     |<br>`;
+        exists.innerHTML += `Email: ${UserArray[i].emailID}     |     PhoneNumber: ${UserArray[i].phone}     |<br>`;
     }
 }
 
 function SignUpPage()
 {
     let signUp = document.getElementById("signUp") as HTMLDivElement;
-    var login = document.getElementById("loginPage") as HTMLDivElement;
+    let login = document.getElementById("loginPage") as HTMLDivElement;
     signUp.style.display = "block";
     login.style.display = "none";
 }
@@ -82,8 +105,23 @@ function Back()
     signUp.style.display = "none";
 }
 
+function LogOut()
+{
+    let loginContainer = document.getElementById("loginContainer") as HTMLDivElement;
+    loginContainer.style.display = "block";
+    let login = document.getElementById("loginPage") as HTMLDivElement;
+    let menu = document.getElementById("menu") as HTMLDivElement;
+    let message = document.getElementById("medicine") as HTMLLabelElement;
+
+    menu.style.display = "none";
+    login.style.display = "block";
+    message.innerText = "";
+}
+
 async function SignUp()
 {
+    let loginContainer = document.getElementById("loginContainer") as HTMLDivElement;
+
     let medicine = document.getElementById("medicine") as HTMLLabelElement;
     medicine.style.display = "block";
     medicine.innerHTML = "<button onclick = 'Back()'>Back</button> <br>";
@@ -99,7 +137,7 @@ async function SignUp()
     let exist : boolean = false;
 
     UserArray.forEach(item => {
-        if(item.mail.toLowerCase() == mail.toLowerCase())
+        if(item.emailID.toLowerCase() == mail.toLowerCase())
         {
             exist = true;
             alert("User exist");
@@ -109,15 +147,16 @@ async function SignUp()
     if(!exist)
     {
         const user : User = {
-            userID: -1,
-            name: name,
-            mail: mail,
+            userID: userIDAuto,
+            userName: name,
+            emailID: mail,
             phone: phone,
-            newPass: newPass,
-            confirmPass: confirmPass,
+            password: newPass,
+            confirmPassword: confirmPass,
             balance: defaultBalance
         }
         addUser(user);
+        loginContainer.style.display = "none";
         alert("Registration success!");
     }
     //let user = new NewUser(name, mail, phone, newPass, confirmPass, defaultBalance);
@@ -127,23 +166,29 @@ async function SignUp()
 
 async function SignIn()
 {
-    let mail = (document.getElementById("email") as HTMLInputElement).value;
+    let loginContainer = document.getElementById("loginContainer") as HTMLDivElement;
+    
+    let medicine = document.getElementById("medicine") as HTMLDivElement;
+    let mail = (document.getElementById("email") as HTMLInputElement);
     let signInPage = document.getElementById("signIn") as HTMLDivElement;
-    let pass = (document.getElementById("pass") as HTMLInputElement).value;
+    let pass = (document.getElementById("pass") as HTMLInputElement);
     let menu = document.getElementById("menu") as HTMLDivElement;
     let valid : boolean = false;
 
     const UserArray = await fetchUser();
     UserArray.forEach(element => {
-        if(element.mail == mail)
+        if(element.emailID == mail.value)
         {
             valid = true;
-            if(element.newPass.match(pass))
+            
+            if(element.password == pass.value)
             {
+                loginContainer.style.display = "none";
                 currentUser = element;
-                
                 menu.style.display = "flex";
                 signInPage.style.display = "none";
+                medicine.innerHTML = `<h2>Welcome ${currentUser.userName}</h2>`;
+                medicine.style.display = "block";
             }
             else
             {
@@ -156,9 +201,8 @@ async function SignIn()
         alert("Enter valid email");
     }
     //Menu();
-    let medicine = document.getElementById("medicine") as HTMLDivElement;
-    medicine.innerHTML = `<h2>Welcome ${currentUser.name}</h2>`;
-    medicine.style.display = "block";
+    mail.value = "";
+    pass.value = "";
 }
 
 function DisplayMedicine()
@@ -200,43 +244,54 @@ async function Purchase()
     }) 
 }
 
-async function PurchaseMedicine(medicineInput)
+async function PurchaseMedicine(medicineInput : number)
 {
     let medicine = document.getElementById("medicine") as HTMLLabelElement;
     const MedicineArray = await fetchMedicine();
-    const OrderArray = await fetchOrder();
+    //const OrderArray = await fetchOrder();
 
-    let quantityInput = Number((document.getElementById("quantityInput") as HTMLInputElement).value);
+    let quantityInput = (document.getElementById("quantityInput") as HTMLInputElement);
     let flag : boolean = false;
     let balance : boolean;
     let total : number;
-        if(currentUser.balance > 0 && quantityInput > 0)
+        if(currentUser.balance > 0 && Number(quantityInput.value) > 0)
         {
             MedicineArray.forEach(element => {
                 if(medicineInput == (element.medicineID))
                 {
                     flag = true;
                     
-                    if(quantityInput <= element.quantity)
+                    if(Number(quantityInput.value) <= element.quantity)
                     {
-                        if(currentUser.balance >= element.price * quantityInput)
+                        if(currentUser.balance >= element.price * Number(quantityInput.value))
                         {
                             //medicine.innerHTML = "";
                             balance = true;
-                            element.quantity -= quantityInput;
-                            currentUser.balance -= element.price * quantityInput;
-                            total = element.price * quantityInput;
+                            element.quantity -= Number(quantityInput.value);
+                            currentUser.balance -= element.price * Number(quantityInput.value);
+                            total = element.price * Number(quantityInput.value);
 
                             const order: Order = {
-                                orderID : -1,
+                                orderID : orderIDAuto,
                                 medicineID : element.medicineID,
                                 medicineName : element.medicineName,
-                                count : quantityInput,
+                                count : Number(quantityInput.value),
                                 totalAmount : total
                             };
 
+                            const med : Medicine = {
+                                medicineID : element.medicineID,
+                                medicineName : element.medicineName,
+                                price : element.price,
+                                quantity : element.quantity
+                            }
+                            updateMedicine(element.medicineID, med);
+
+                            updateUser(currentUser.userID, currentUser);
+
                             //OrderArray.push(new Order(element.medicineID, element.medicineName, quantityInput,total));
                             addOrder(order);
+
                             medicine.innerHTML = `<h2>${element.medicineName} Ordered Successfully!`;
                         }
                         else if(!balance)
@@ -259,6 +314,7 @@ async function PurchaseMedicine(medicineInput)
         {
             alert("Enter quantity");
         }
+        quantityInput.value = "";
 }
 
 function Menu()
@@ -276,7 +332,7 @@ function Menu()
     purchase.style.display = "none";
     toAdd.style.display = "none";
     
-    medicine.innerHTML = `<h2>Hello ${currentUser.name}</h2>`;
+    medicine.innerHTML = `<h2>Hello ${currentUser.userName}</h2>`;
     medicine.style.display = "block";
     let topUp = document.getElementById("topUp") as HTMLDivElement;
     topUp.style.display = "none";
@@ -311,13 +367,13 @@ function TopUpPage()
     topUp.style.display = "block";
 }
 
-async function AddAmount()
+function AddAmount()
 {
     let amount = (document.getElementById("amount") as HTMLInputElement).value;
 
     currentUser.balance += Number(amount);
 
-   await updateUser(currentUser.userID, currentUser);
+    updateUser(currentUser.userID, currentUser);
     
 
     let medicine = document.getElementById("medicine") as HTMLDivElement;
@@ -351,7 +407,7 @@ async function Cancel()
     })
 }
 
-async function CancelOrder(orderID, quantity)
+async function CancelOrder(orderID : number, quantity : number)
 {
     let medicine = document.getElementById("medicine") as HTMLLabelElement;
     const OrderArray = await fetchOrder();
@@ -368,7 +424,9 @@ async function CancelOrder(orderID, quantity)
                     item.quantity += Number(quantity);
                 }
             });
-            OrderArray.splice(i,1);
+            deleteOrder(OrderArray[i].orderID, OrderArray[i]);
+            //OrderArray.splice(i,1);
+            
             medicine.innerHTML = "<h2>Order cancelled!</h2>";
         }
     }  
@@ -386,8 +444,8 @@ const AddItem = async () => {
     {
         let exist : boolean = false;
         let name : any;
-        let id;
-        let quant;
+        let id : number = 0;
+        let quant : number = 0;
 
         MedicineArray.forEach(item => {
             if(item.medicineName.toLowerCase() == newMedicine.value.toLowerCase())
@@ -402,19 +460,20 @@ const AddItem = async () => {
         if(exist)
         {
             const editMedicine : Medicine = {
-                medicineID: ++medicineIDAuto,
+                medicineID: id,
                 medicineName: name,
                 price: parseInt(price.value),
                 quantity: quant
             }
-            updateMedicine(id, editMedicine);
+            updateMedicine(editMedicine.medicineID, editMedicine);
+            RenderTable();
         }
         if(!exist)
         {
             const medicine : Medicine = {
-                medicineID: ++medicineIDAuto,
+                medicineID: medicineIDAuto,
                 medicineName: newMedicine.value,
-                price: parseInt(price.value),
+                price: Number(price.value),
                 quantity: Number(quantity.value)
             }
             //MedicineArray.push(new Medicine(newMedicine.value, parseInt(price.value), parseInt(quantity.value)));
@@ -422,12 +481,23 @@ const AddItem = async () => {
         }
     }
     else alert("Enter the inputs");
-    RenderTable();
+    
     newMedicine.value = "";
     price.value = "";
     quantity.value = "";
 }
 
+async function DeleteItem(medID : number)
+{
+    const MedicineArray = await fetchMedicine();
+
+    MedicineArray.forEach(item => {
+        if(item.medicineID == medID)
+        {
+            deleteMedicine(item.medicineID, item);
+        }
+    })
+}
 
 async function RenderTable()
 {
@@ -444,7 +514,7 @@ async function RenderTable()
         row.innerHTML = `<td>${item.medicineName}</td>
                          <td>${item.price}</td>
                          <td>${item.quantity}</td>
-                         <td><button onclick="Delete()">Delete</button>`;
+                         <td><button class="delButton" onclick="DeleteItem('${item.medicineID}')">Delete</button>`;
 
         tableBody.appendChild(row);
     });
@@ -502,7 +572,7 @@ async function updateMedicine(id: number, medicine: Medicine): Promise<void> {
     {
         throw new Error('Failed to update medicine');
     }
-    RenderTable();
+    //RenderTable();
 }
 
 async function updateUser(id: number, user: User): Promise<void> {
@@ -519,8 +589,8 @@ async function updateUser(id: number, user: User): Promise<void> {
     }
 }
 
-async function DeleteMedicine(id: number, medicine: Medicine): Promise<void> {
-    const response = await fetch('http://localhost:5238/api/Medicine' , {
+async function deleteMedicine(id: number, medicine: Medicine): Promise<void> {
+    const response = await fetch(`http://localhost:5238/api/Medicine/${id}` , {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application.json'
@@ -529,6 +599,20 @@ async function DeleteMedicine(id: number, medicine: Medicine): Promise<void> {
     });
     if(!response.ok) {
         throw new Error('Failed to delete medicine');
+    }
+    RenderTable();
+}
+
+async function deleteOrder(id: number, order: Order): Promise<void> {
+    const response = await fetch(`http://localhost:5238/api/Order/${id}` , {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application.json'
+        },
+        body: JSON.stringify(order)
+    });
+    if(!response.ok) {
+        throw new Error('Failed to delete order');
     }
 }
 

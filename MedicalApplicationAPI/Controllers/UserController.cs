@@ -26,7 +26,7 @@ namespace MedicalApplicationAPI.Controllers
         [HttpGet]
         public IActionResult GetUser()
         {
-            return Ok(_dbcontext.medicineList.ToList());
+            return Ok(_dbcontext.userList.ToList());
         }
 
         //GET: api/User/1
@@ -47,6 +47,7 @@ namespace MedicalApplicationAPI.Controllers
         public IActionResult AddUser([FromBody] User user) //post request
         {
             _dbcontext.Add(user);
+            _dbcontext.SaveChanges();
             //You might want to return CreatedAtAction or another appropriate response
             return Ok();
         }
@@ -61,12 +62,13 @@ namespace MedicalApplicationAPI.Controllers
             {
                 return NotFound();
             }
-            userOld.Name = user.Name;
-            userOld.Mail = user.Mail;
+            userOld.UserName = user.UserName;
+            userOld.EmailID = user.EmailID;
             userOld.Phone = user.Phone;
-            userOld.NewPass = user.NewPass;
-            userOld.ConfirmPass = user.ConfirmPass;
+            userOld.Password = user.Password;
+            userOld.ConfirmPassword = user.ConfirmPassword;
             userOld.Balance = user.Balance;
+            _dbcontext.SaveChanges();
             //You might want to return NoContent or another appropriate response
             return Ok();
         }
@@ -81,7 +83,7 @@ namespace MedicalApplicationAPI.Controllers
             {
                 return NotFound();
             }
-            _dbcontext.Remove(user);
+            _dbcontext.userList.Remove(user);
             _dbcontext.SaveChanges();
             //You might want to return NoContent or another appropriate response
             return Ok();

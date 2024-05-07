@@ -64,9 +64,10 @@ function SignInPage() {
                     return [4 /*yield*/, fetchUser()];
                 case 1:
                     UserArray = _a.sent();
-                    for (i = 0; i < UserArray.length; i++) {
+                    for (i = 0; i < 1; i++) {
                         exists.innerHTML += "Email: ".concat(UserArray[i].mail, "     |     PhoneNumber: ").concat(UserArray[i].phone, "     |<br>");
                     }
+                    alert("message2");
                     return [2 /*return*/];
             }
         });

@@ -47,6 +47,7 @@ namespace MedicalApplicationAPI.Controllers
         public IActionResult PostMedicine([FromBody] Medicine medicine)  //post request
         {
             _dbcontext.medicineList.Add(medicine);
+            _dbcontext.SaveChanges();
             //You might want to return CreatedAtAction or another appropriate response
             return Ok();
         }

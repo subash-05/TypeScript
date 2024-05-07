@@ -57,7 +57,7 @@ async function SignInPage()
     login.style.display = "none";
 
     exists.innerHTML = "<h2>Available Users</h2>";
-
+    
     const UserArray = await fetchUser();
 
     for(let i=0; i<UserArray.length; i++)

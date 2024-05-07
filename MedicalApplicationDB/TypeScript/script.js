@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,169 +8,152 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (g && (g = 0, op[0] && (_ = 0)), _) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var _this = this;
 var currentUser;
-var userIDAuto = 2;
-var medicineIDAuto = 303;
-//let orderIDAuto = 200;
-var defaultBalance = 5000;
+let userIDAuto = undefined;
+let medicineIDAuto = undefined;
+let orderIDAuto = undefined;
+let defaultBalance = 5000;
 //array
 /*
 let UserArray : Array<NewUser> = new Array<NewUser>; //let UserArray : NewUser[]
 let MedicineArray : Array<Medicines> = new Array<Medicines>;
 let OrderArray : Array<Order> = new Array<Order>;
 */
-//const UserArray = await fetchUser();
-//const MedicineArray = await fetchMedicine();
 //functions
+function toRegister() {
+    let register = document.getElementById("register");
+    register.style.display = "block";
+    let login = document.getElementById("login");
+    login.style.display = "none";
+    let loginButton = document.getElementById("loginButton");
+    loginButton.style.backgroundColor = "white";
+    let registerButton = document.getElementById("registerButton");
+    registerButton.style.backgroundColor = "rgb(174, 202, 255)";
+}
+function toLogin() {
+    let login = document.getElementById("login");
+    login.style.display = "block";
+    let register = document.getElementById("register");
+    register.style.display = "none";
+    let registerButton = document.getElementById("registerButton");
+    registerButton.style.backgroundColor = "white";
+    let loginButton = document.getElementById("loginButton");
+    loginButton.style.backgroundColor = "rgb(174, 202, 255)";
+}
 function SignInPage() {
-    return __awaiter(this, void 0, void 0, function () {
-        var signIn, login, exists, UserArray, i;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    signIn = document.getElementById("signIn");
-                    login = document.getElementById("loginPage");
-                    exists = document.getElementById("existingUsers");
-                    signIn.style.display = "block";
-                    login.style.display = "none";
-                    exists.innerHTML = "<h2>Available Users</h2>";
-                    return [4 /*yield*/, fetchUser()];
-                case 1:
-                    UserArray = _a.sent();
-                    for (i = 0; i < UserArray.length; i++) {
-                        exists.innerHTML += "Email: ".concat(UserArray[i].mail, "     |     PhoneNumber: ").concat(UserArray[i].phone, "     |<br>");
-                    }
-                    return [2 /*return*/];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        let signIn = document.getElementById("signIn");
+        let login = document.getElementById("loginPage");
+        let exists = document.getElementById("existingUsers");
+        signIn.style.display = "block";
+        login.style.display = "none";
+        exists.innerHTML = "<h2>Available Users</h2>";
+        const UserArray = yield fetchUser();
+        for (let i = 0; i < UserArray.length; i++) {
+            exists.innerHTML += `Email: ${UserArray[i].emailID}     |     PhoneNumber: ${UserArray[i].phone}     |<br>`;
+        }
     });
 }
 function SignUpPage() {
-    var signUp = document.getElementById("signUp");
-    var login = document.getElementById("loginPage");
+    let signUp = document.getElementById("signUp");
+    let login = document.getElementById("loginPage");
     signUp.style.display = "block";
     login.style.display = "none";
 }
 function Back() {
-    var signUp = document.getElementById("signUp");
+    let signUp = document.getElementById("signUp");
     var login = document.getElementById("loginPage");
-    var medicine = document.getElementById("medicine");
+    let medicine = document.getElementById("medicine");
     medicine.style.display = "none";
     login.style.display = "block";
     signUp.style.display = "none";
 }
+function LogOut() {
+    let loginContainer = document.getElementById("loginContainer");
+    loginContainer.style.display = "block";
+    let login = document.getElementById("loginPage");
+    let menu = document.getElementById("menu");
+    let message = document.getElementById("medicine");
+    menu.style.display = "none";
+    login.style.display = "block";
+    message.innerText = "";
+}
 function SignUp() {
-    return __awaiter(this, void 0, void 0, function () {
-        var medicine, UserArray, name, mail, phone, newPass, confirmPass, exist, user;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    medicine = document.getElementById("medicine");
-                    medicine.style.display = "block";
-                    medicine.innerHTML = "<button onclick = 'Back()'>Back</button> <br>";
-                    return [4 /*yield*/, fetchUser()];
-                case 1:
-                    UserArray = _a.sent();
-                    name = document.getElementById("name").value;
-                    mail = document.getElementById("newMail").value;
-                    phone = document.getElementById("phone").value;
-                    newPass = document.getElementById("newPassword").value;
-                    confirmPass = document.getElementById("confirmPassword").value;
-                    exist = false;
-                    UserArray.forEach(function (item) {
-                        if (item.mail.toLowerCase() == mail.toLowerCase()) {
-                            exist = true;
-                            alert("User exist");
-                        }
-                    });
-                    if (!exist) {
-                        user = {
-                            userID: -1,
-                            name: name,
-                            mail: mail,
-                            phone: phone,
-                            newPass: newPass,
-                            confirmPass: confirmPass,
-                            balance: defaultBalance
-                        };
-                        addUser(user);
-                        alert("Registration success!");
-                    }
-                    return [2 /*return*/];
+    return __awaiter(this, void 0, void 0, function* () {
+        let loginContainer = document.getElementById("loginContainer");
+        let medicine = document.getElementById("medicine");
+        medicine.style.display = "block";
+        medicine.innerHTML = "<button onclick = 'Back()'>Back</button> <br>";
+        const UserArray = yield fetchUser();
+        let name = document.getElementById("name").value;
+        let mail = document.getElementById("newMail").value;
+        let phone = document.getElementById("phone").value;
+        let newPass = document.getElementById("newPassword").value;
+        let confirmPass = document.getElementById("confirmPassword").value;
+        //const user;
+        let exist = false;
+        UserArray.forEach(item => {
+            if (item.emailID.toLowerCase() == mail.toLowerCase()) {
+                exist = true;
+                alert("User exist");
             }
         });
+        if (!exist) {
+            const user = {
+                userID: userIDAuto,
+                userName: name,
+                emailID: mail,
+                phone: phone,
+                password: newPass,
+                confirmPassword: confirmPass,
+                balance: defaultBalance
+            };
+            addUser(user);
+            loginContainer.style.display = "none";
+            alert("Registration success!");
+        }
+        //let user = new NewUser(name, mail, phone, newPass, confirmPass, defaultBalance);
+        //UserArray.push(user);
     });
 }
 function SignIn() {
-    return __awaiter(this, void 0, void 0, function () {
-        var mail, signInPage, pass, menu, valid, UserArray, medicine;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    mail = document.getElementById("email").value;
-                    signInPage = document.getElementById("signIn");
-                    pass = document.getElementById("pass").value;
-                    menu = document.getElementById("menu");
-                    valid = false;
-                    return [4 /*yield*/, fetchUser()];
-                case 1:
-                    UserArray = _a.sent();
-                    UserArray.forEach(function (element) {
-                        if (element.mail == mail) {
-                            valid = true;
-                            if (element.newPass.match(pass)) {
-                                currentUser = element;
-                                menu.style.display = "flex";
-                                signInPage.style.display = "none";
-                            }
-                            else {
-                                alert("Wrong password");
-                            }
-                        }
-                    });
-                    if (!valid) {
-                        alert("Enter valid email");
-                    }
-                    medicine = document.getElementById("medicine");
-                    medicine.innerHTML = "<h2>Welcome ".concat(currentUser.name, "</h2>");
+    return __awaiter(this, void 0, void 0, function* () {
+        let loginContainer = document.getElementById("loginContainer");
+        let medicine = document.getElementById("medicine");
+        let mail = document.getElementById("email");
+        let signInPage = document.getElementById("signIn");
+        let pass = document.getElementById("pass");
+        let menu = document.getElementById("menu");
+        let valid = false;
+        const UserArray = yield fetchUser();
+        UserArray.forEach(element => {
+            if (element.emailID == mail.value) {
+                valid = true;
+                if (element.password == pass.value) {
+                    loginContainer.style.display = "none";
+                    currentUser = element;
+                    menu.style.display = "flex";
+                    signInPage.style.display = "none";
+                    medicine.innerHTML = `<h2>Welcome ${currentUser.userName}</h2>`;
                     medicine.style.display = "block";
-                    return [2 /*return*/];
+                }
+                else {
+                    alert("Wrong password");
+                }
             }
         });
+        if (!valid) {
+            alert("Enter valid email");
+        }
+        //Menu();
+        mail.value = "";
+        pass.value = "";
     });
 }
 function DisplayMedicine() {
-    var medicine = document.getElementById("medicine");
-    var toAdd = document.getElementById("toAdd");
-    var menu = document.getElementById("menu");
+    let medicine = document.getElementById("medicine");
+    let toAdd = document.getElementById("toAdd");
+    let menu = document.getElementById("menu");
     menu.style.display = "none";
     medicine.style.display = "block";
     medicine.innerHTML = "<h2>Medicine List</h2><br>";
@@ -178,477 +162,367 @@ function DisplayMedicine() {
     RenderTable();
 }
 function Purchase() {
-    return __awaiter(this, void 0, void 0, function () {
-        var medicine, MedicineArray, purchase, menu, topUp;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    medicine = document.getElementById("medicine");
-                    medicine.innerHTML = "";
-                    return [4 /*yield*/, fetchMedicine()];
-                case 1:
-                    MedicineArray = _a.sent();
-                    purchase = document.getElementById("purchase");
-                    menu = document.getElementById("menu");
-                    topUp = document.getElementById("topUp");
-                    topUp.style.display = "none";
-                    menu.style.display = "none";
-                    purchase.style.display = "block";
-                    medicine.style.display = "block";
-                    MedicineArray.forEach(function (element) {
-                        medicine.innerHTML += "|   Medicine Name: ".concat(element.medicineName, "   |   Price: ").concat(element.price, "   |    Quantity: ").concat(element.quantity, "   |   <button onclick=\"PurchaseMedicine('").concat(element.medicineID, "')\">Buy</button><br><br>");
-                    });
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        let medicine = document.getElementById("medicine");
+        medicine.innerHTML = "";
+        const MedicineArray = yield fetchMedicine();
+        let purchase = document.getElementById("purchase");
+        let menu = document.getElementById("menu");
+        let topUp = document.getElementById("topUp");
+        topUp.style.display = "none";
+        menu.style.display = "none";
+        purchase.style.display = "block";
+        medicine.style.display = "block";
+        MedicineArray.forEach(element => {
+            medicine.innerHTML += `|   Medicine Name: ${element.medicineName}   |   Price: ${element.price}   |    Quantity: ${element.quantity}   |   <button onclick="PurchaseMedicine('${element.medicineID}')">Buy</button><br><br>`;
         });
     });
 }
 function PurchaseMedicine(medicineInput) {
-    return __awaiter(this, void 0, void 0, function () {
-        var medicine, MedicineArray, OrderArray, quantityInput, flag, balance, total;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    medicine = document.getElementById("medicine");
-                    return [4 /*yield*/, fetchMedicine()];
-                case 1:
-                    MedicineArray = _a.sent();
-                    return [4 /*yield*/, fetchOrder()];
-                case 2:
-                    OrderArray = _a.sent();
-                    quantityInput = Number(document.getElementById("quantityInput").value);
-                    flag = false;
-                    if (currentUser.balance > 0 && quantityInput > 0) {
-                        MedicineArray.forEach(function (element) {
-                            if (medicineInput == (element.medicineID)) {
-                                flag = true;
-                                if (quantityInput <= element.quantity) {
-                                    if (currentUser.balance >= element.price * quantityInput) {
-                                        //medicine.innerHTML = "";
-                                        balance = true;
-                                        element.quantity -= quantityInput;
-                                        currentUser.balance -= element.price * quantityInput;
-                                        total = element.price * quantityInput;
-                                        var order = {
-                                            orderID: -1,
-                                            medicineID: element.medicineID,
-                                            medicineName: element.medicineName,
-                                            count: quantityInput,
-                                            totalAmount: total
-                                        };
-                                        //OrderArray.push(new Order(element.medicineID, element.medicineName, quantityInput,total));
-                                        addOrder(order);
-                                        medicine.innerHTML = "<h2>".concat(element.medicineName, " Ordered Successfully!");
-                                    }
-                                    else if (!balance) {
-                                        alert("Insufficient balance");
-                                    }
-                                }
-                                else {
-                                    alert("Quantity not available!");
-                                }
-                            }
-                        });
-                        if (!flag) {
-                            alert("Invalid input");
+    return __awaiter(this, void 0, void 0, function* () {
+        let medicine = document.getElementById("medicine");
+        const MedicineArray = yield fetchMedicine();
+        //const OrderArray = await fetchOrder();
+        let quantityInput = document.getElementById("quantityInput");
+        let flag = false;
+        let balance;
+        let total;
+        if (currentUser.balance > 0 && Number(quantityInput.value) > 0) {
+            MedicineArray.forEach(element => {
+                if (medicineInput == (element.medicineID)) {
+                    flag = true;
+                    if (Number(quantityInput.value) <= element.quantity) {
+                        if (currentUser.balance >= element.price * Number(quantityInput.value)) {
+                            //medicine.innerHTML = "";
+                            balance = true;
+                            element.quantity -= Number(quantityInput.value);
+                            currentUser.balance -= element.price * Number(quantityInput.value);
+                            total = element.price * Number(quantityInput.value);
+                            const order = {
+                                orderID: orderIDAuto,
+                                medicineID: element.medicineID,
+                                medicineName: element.medicineName,
+                                count: Number(quantityInput.value),
+                                totalAmount: total
+                            };
+                            const med = {
+                                medicineID: element.medicineID,
+                                medicineName: element.medicineName,
+                                price: element.price,
+                                quantity: element.quantity
+                            };
+                            updateMedicine(element.medicineID, med);
+                            updateUser(currentUser.userID, currentUser);
+                            //OrderArray.push(new Order(element.medicineID, element.medicineName, quantityInput,total));
+                            addOrder(order);
+                            medicine.innerHTML = `<h2>${element.medicineName} Ordered Successfully!`;
+                        }
+                        else if (!balance) {
+                            alert("Insufficient balance");
                         }
                     }
                     else {
-                        alert("Enter quantity");
+                        alert("Quantity not available!");
                     }
-                    return [2 /*return*/];
+                }
+            });
+            if (!flag) {
+                alert("Invalid input");
             }
-        });
+        }
+        else {
+            alert("Enter quantity");
+        }
+        quantityInput.value = "";
     });
 }
 function Menu() {
-    var menu = document.getElementById("menu");
-    var purchase = document.getElementById("purchase");
-    var medicine = document.getElementById("medicine");
-    var dataTable = document.getElementById("dataTable");
-    var toAdd = document.getElementById("toAdd");
+    let menu = document.getElementById("menu");
+    let purchase = document.getElementById("purchase");
+    let medicine = document.getElementById("medicine");
+    const dataTable = document.getElementById("dataTable");
+    let toAdd = document.getElementById("toAdd");
     medicine.innerText = "none";
     dataTable.style.display = "none";
     menu.style.display = "flex";
     purchase.style.display = "none";
     toAdd.style.display = "none";
-    medicine.innerHTML = "<h2>Hello ".concat(currentUser.name, "</h2>");
+    medicine.innerHTML = `<h2>Hello ${currentUser.userName}</h2>`;
     medicine.style.display = "block";
-    var topUp = document.getElementById("topUp");
+    let topUp = document.getElementById("topUp");
     topUp.style.display = "none";
 }
 function OrderHistory() {
-    return __awaiter(this, void 0, void 0, function () {
-        var OrderArray, topUp, medicine;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetchOrder()];
-                case 1:
-                    OrderArray = _a.sent();
-                    topUp = document.getElementById("topUp");
-                    topUp.style.display = "none";
-                    medicine = document.getElementById("medicine");
-                    medicine.style.display = "block";
-                    medicine.innerHTML = "<h2>Order History</h2>";
-                    OrderArray.forEach(function (element) {
-                        medicine.innerHTML += "MedicineName: ".concat(element.medicineName, "   |   Quantity: ").concat(element.count, "   |   Total: ").concat(element.totalAmount, "<br>");
-                    });
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const OrderArray = yield fetchOrder();
+        let topUp = document.getElementById("topUp");
+        topUp.style.display = "none";
+        //let menu = document.getElementById("menu") as HTMLDivElement;
+        //menu.style.display = "none";
+        let medicine = document.getElementById("medicine");
+        medicine.style.display = "block";
+        medicine.innerHTML = "<h2>Order History</h2>";
+        OrderArray.forEach(element => {
+            medicine.innerHTML += `MedicineName: ${element.medicineName}   |   Quantity: ${element.count}   |   Total: ${element.totalAmount}<br>`;
         });
     });
 }
 function TopUpPage() {
-    var medicine = document.getElementById("medicine");
+    let medicine = document.getElementById("medicine");
     medicine.style.display = "none";
-    var topUp = document.getElementById("topUp");
+    let topUp = document.getElementById("topUp");
     topUp.style.display = "block";
 }
 function AddAmount() {
-    return __awaiter(this, void 0, void 0, function () {
-        var amount, medicine;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    amount = document.getElementById("amount").value;
-                    currentUser.balance += Number(amount);
-                    return [4 /*yield*/, updateUser(currentUser.userID, currentUser)];
-                case 1:
-                    _a.sent();
-                    medicine = document.getElementById("medicine");
-                    medicine.style.display = "block";
-                    medicine.innerHTML = "<h2>Amount ".concat(amount, " added to your account.</h2><h2>Current balance is ").concat(currentUser.balance, "</h2>");
-                    return [2 /*return*/];
-            }
-        });
-    });
+    let amount = document.getElementById("amount").value;
+    currentUser.balance += Number(amount);
+    updateUser(currentUser.userID, currentUser);
+    let medicine = document.getElementById("medicine");
+    medicine.style.display = "block";
+    medicine.innerHTML = `<h2>Amount ${amount} added to your account.</h2><h2>Current balance is ${currentUser.balance}</h2>`;
 }
 function ShowBalance() {
-    var topUp = document.getElementById("topUp");
+    let topUp = document.getElementById("topUp");
     topUp.style.display = "none";
-    var medicine = document.getElementById("medicine");
+    let medicine = document.getElementById("medicine");
     medicine.style.display = "block";
-    medicine.innerHTML = "<h2>Current balance is ".concat(currentUser.balance, "</h2>");
+    medicine.innerHTML = `<h2>Current balance is ${currentUser.balance}</h2>`;
 }
 function Cancel() {
-    return __awaiter(this, void 0, void 0, function () {
-        var topUp, OrderArray, medicine;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    topUp = document.getElementById("topUp");
-                    topUp.style.display = "none";
-                    return [4 /*yield*/, fetchOrder()];
-                case 1:
-                    OrderArray = _a.sent();
-                    medicine = document.getElementById("medicine");
-                    medicine.style.display = "block";
-                    medicine.innerHTML = "<h2>Order History</h2>";
-                    OrderArray.forEach(function (element) {
-                        medicine.innerHTML += "|   Medicine Name: ".concat(element.medicineName, "   |   Quantity: ").concat(element.count, "   |   Total: ").concat(element.totalAmount, "   |   <button onclick=\"CancelOrder('").concat(element.orderID, "','").concat(element.count, "')\">Cancel</button>  |<br><br>");
-                    });
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        let topUp = document.getElementById("topUp");
+        topUp.style.display = "none";
+        const OrderArray = yield fetchOrder();
+        let medicine = document.getElementById("medicine");
+        medicine.style.display = "block";
+        medicine.innerHTML = "<h2>Order History</h2>";
+        OrderArray.forEach(element => {
+            medicine.innerHTML += `|   Medicine Name: ${element.medicineName}   |   Quantity: ${element.count}   |   Total: ${element.totalAmount}   |   <button onclick="CancelOrder('${element.orderID}','${element.count}')">Cancel</button>  |<br><br>`;
         });
     });
 }
 function CancelOrder(orderID, quantity) {
-    return __awaiter(this, void 0, void 0, function () {
-        var medicine, OrderArray, MedicineArray, _loop_1, i;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    medicine = document.getElementById("medicine");
-                    return [4 /*yield*/, fetchOrder()];
-                case 1:
-                    OrderArray = _a.sent();
-                    return [4 /*yield*/, fetchMedicine()];
-                case 2:
-                    MedicineArray = _a.sent();
-                    _loop_1 = function (i) {
-                        if (OrderArray[i].orderID == orderID) {
-                            currentUser.balance += OrderArray[i].totalAmount;
-                            MedicineArray.forEach(function (item) {
-                                if (OrderArray[i].medicineID == item.medicineID) {
-                                    item.quantity += Number(quantity);
-                                }
-                            });
-                            OrderArray.splice(i, 1);
-                            medicine.innerHTML = "<h2>Order cancelled!</h2>";
-                        }
-                    };
-                    for (i = 0; i < OrderArray.length; i++) {
-                        _loop_1(i);
+    return __awaiter(this, void 0, void 0, function* () {
+        let medicine = document.getElementById("medicine");
+        const OrderArray = yield fetchOrder();
+        const MedicineArray = yield fetchMedicine();
+        for (let i = 0; i < OrderArray.length; i++) {
+            if (OrderArray[i].orderID == orderID) {
+                currentUser.balance += OrderArray[i].totalAmount;
+                MedicineArray.forEach(item => {
+                    if (OrderArray[i].medicineID == item.medicineID) {
+                        item.quantity += Number(quantity);
                     }
-                    return [2 /*return*/];
+                });
+                deleteOrder(OrderArray[i].orderID, OrderArray[i]);
+                //OrderArray.splice(i,1);
+                medicine.innerHTML = "<h2>Order cancelled!</h2>";
+            }
+        }
+    });
+}
+const AddItem = () => __awaiter(void 0, void 0, void 0, function* () {
+    let newMedicine = document.getElementById("newMedicine");
+    let price = document.getElementById("price");
+    let quantity = document.getElementById("quantity");
+    const MedicineArray = yield fetchMedicine();
+    if (newMedicine.value != "" && price.value != "" && quantity.value != "") {
+        let exist = false;
+        let name;
+        let id = 0;
+        let quant = 0;
+        MedicineArray.forEach(item => {
+            if (item.medicineName.toLowerCase() == newMedicine.value.toLowerCase()) {
+                alert("medicine exist");
+                name = item.medicineName;
+                id = item.medicineID;
+                quant = item.quantity + Number(quantity.value);
+                exist = true;
+            }
+        });
+        if (exist) {
+            const editMedicine = {
+                medicineID: id,
+                medicineName: name,
+                price: parseInt(price.value),
+                quantity: quant
+            };
+            updateMedicine(editMedicine.medicineID, editMedicine);
+            RenderTable();
+        }
+        if (!exist) {
+            const medicine = {
+                medicineID: medicineIDAuto,
+                medicineName: newMedicine.value,
+                price: Number(price.value),
+                quantity: Number(quantity.value)
+            };
+            //MedicineArray.push(new Medicine(newMedicine.value, parseInt(price.value), parseInt(quantity.value)));
+            addMedicine(medicine);
+        }
+    }
+    else
+        alert("Enter the inputs");
+    newMedicine.value = "";
+    price.value = "";
+    quantity.value = "";
+});
+function DeleteItem(medID) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const MedicineArray = yield fetchMedicine();
+        MedicineArray.forEach(item => {
+            if (item.medicineID == medID) {
+                deleteMedicine(item.medicineID, item);
             }
         });
     });
 }
-var AddItem = function () { return __awaiter(_this, void 0, void 0, function () {
-    var newMedicine, price, quantity, MedicineArray, exist_1, name_1, id_1, quant_1, editMedicine, medicine;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                newMedicine = document.getElementById("newMedicine");
-                price = document.getElementById("price");
-                quantity = document.getElementById("quantity");
-                return [4 /*yield*/, fetchMedicine()];
-            case 1:
-                MedicineArray = _a.sent();
-                if (newMedicine.value != "" && price.value != "" && quantity.value != "") {
-                    exist_1 = false;
-                    MedicineArray.forEach(function (item) {
-                        if (item.medicineName.toLowerCase() == newMedicine.value.toLowerCase()) {
-                            alert("medicine exist");
-                            name_1 = item.medicineName;
-                            id_1 = item.medicineID;
-                            quant_1 = item.quantity + Number(quantity.value);
-                            exist_1 = true;
-                        }
-                    });
-                    if (exist_1) {
-                        editMedicine = {
-                            medicineID: ++medicineIDAuto,
-                            medicineName: name_1,
-                            price: parseInt(price.value),
-                            quantity: quant_1
-                        };
-                        updateMedicine(id_1, editMedicine);
-                    }
-                    if (!exist_1) {
-                        medicine = {
-                            medicineID: ++medicineIDAuto,
-                            medicineName: newMedicine.value,
-                            price: parseInt(price.value),
-                            quantity: Number(quantity.value)
-                        };
-                        //MedicineArray.push(new Medicine(newMedicine.value, parseInt(price.value), parseInt(quantity.value)));
-                        addMedicine(medicine);
-                    }
-                }
-                else
-                    alert("Enter the inputs");
-                RenderTable();
-                newMedicine.value = "";
-                price.value = "";
-                quantity.value = "";
-                return [2 /*return*/];
-        }
-    });
-}); };
 function RenderTable() {
-    return __awaiter(this, void 0, void 0, function () {
-        var tableBody, dataTable, MedicineArray;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    tableBody = document.querySelector("#dataTable tbody");
-                    dataTable = document.getElementById("dataTable");
-                    dataTable.style.display = "block";
-                    tableBody.innerHTML = "";
-                    return [4 /*yield*/, fetchMedicine()];
-                case 1:
-                    MedicineArray = _a.sent();
-                    MedicineArray.forEach(function (item) {
-                        var row = document.createElement("tr");
-                        row.innerHTML = "<td>".concat(item.medicineName, "</td>\n                         <td>").concat(item.price, "</td>\n                         <td>").concat(item.quantity, "</td>\n                         <td><button onclick=\"Delete()\">Delete</button>");
-                        tableBody.appendChild(row);
-                    });
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const tableBody = document.querySelector("#dataTable tbody");
+        const dataTable = document.getElementById("dataTable");
+        dataTable.style.display = "block";
+        tableBody.innerHTML = "";
+        const MedicineArray = yield fetchMedicine();
+        MedicineArray.forEach(item => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${item.medicineName}</td>
+                         <td>${item.price}</td>
+                         <td>${item.quantity}</td>
+                         <td><button class="delButton" onclick="DeleteItem('${item.medicineID}')">Delete</button>`;
+            tableBody.appendChild(row);
         });
     });
 }
 ;
 function addUser(user) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:5238/api/User', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to add user');
-                    }
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch('http://localhost:5238/api/User', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
         });
+        if (!response.ok) {
+            throw new Error('Failed to add user');
+        }
     });
 }
 function addMedicine(medicine) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:5238/api/Medicine', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(medicine)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to add medicine');
-                    }
-                    RenderTable();
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch('http://localhost:5238/api/Medicine', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(medicine)
         });
+        if (!response.ok) {
+            throw new Error('Failed to add medicine');
+        }
+        RenderTable();
     });
 }
 function addOrder(order) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:5238/api/Order', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(order)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to add order');
-                    }
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch('http://localhost:5238/api/Order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
         });
+        if (!response.ok) {
+            throw new Error('Failed to add order');
+        }
     });
 }
 function updateMedicine(id, medicine) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("http://localhost:5238/api/Medicine/".concat(id), {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(medicine)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to update medicine');
-                    }
-                    RenderTable();
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`http://localhost:5238/api/Medicine/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(medicine)
         });
+        if (!response.ok) {
+            throw new Error('Failed to update medicine');
+        }
+        //RenderTable();
     });
 }
 function updateUser(id, user) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("http://localhost:5238/api/User/".concat(id), {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to update medicine');
-                    }
-                    return [2 /*return*/];
-            }
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`http://localhost:5238/api/User/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
         });
+        if (!response.ok) {
+            throw new Error('Failed to update medicine');
+        }
     });
 }
-function DeleteMedicine(id, medicine) {
-    return __awaiter(this, void 0, void 0, function () {
-        var response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('http://localhost:5238/api/Medicine', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application.json'
-                        },
-                        body: JSON.stringify(medicine)
-                    })];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to delete medicine');
-                    }
-                    return [2 /*return*/];
-            }
+function deleteMedicine(id, medicine) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`http://localhost:5238/api/Medicine/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application.json'
+            },
+            body: JSON.stringify(medicine)
         });
+        if (!response.ok) {
+            throw new Error('Failed to delete medicine');
+        }
+        RenderTable();
+    });
+}
+function deleteOrder(id, order) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield fetch(`http://localhost:5238/api/Order/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application.json'
+            },
+            body: JSON.stringify(order)
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete order');
+        }
     });
 }
 function fetchMedicine() {
-    return __awaiter(this, void 0, void 0, function () {
-        var apiUrl, response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    apiUrl = 'http://localhost:5238/api/Medicine';
-                    return [4 /*yield*/, fetch(apiUrl)];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch medicine');
-                    }
-                    return [4 /*yield*/, response.json()];
-                case 2: return [2 /*return*/, _a.sent()];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const apiUrl = 'http://localhost:5238/api/Medicine';
+        const response = yield fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch medicine');
+        }
+        return yield response.json();
     });
 }
 function fetchUser() {
-    return __awaiter(this, void 0, void 0, function () {
-        var apiUrl, response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    apiUrl = 'http://localhost:5238/api/User';
-                    return [4 /*yield*/, fetch(apiUrl)];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch user');
-                    }
-                    return [4 /*yield*/, response.json()];
-                case 2: return [2 /*return*/, _a.sent()];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const apiUrl = 'http://localhost:5238/api/User';
+        const response = yield fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch user');
+        }
+        return yield response.json();
     });
 }
 function fetchOrder() {
-    return __awaiter(this, void 0, void 0, function () {
-        var apiUrl, response;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    apiUrl = 'http://localhost:5238/api/Order';
-                    return [4 /*yield*/, fetch(apiUrl)];
-                case 1:
-                    response = _a.sent();
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch order');
-                    }
-                    return [4 /*yield*/, response.json()];
-                case 2: return [2 /*return*/, _a.sent()];
-            }
-        });
+    return __awaiter(this, void 0, void 0, function* () {
+        const apiUrl = 'http://localhost:5238/api/Order';
+        const response = yield fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch order');
+        }
+        return yield response.json();
     });
 }

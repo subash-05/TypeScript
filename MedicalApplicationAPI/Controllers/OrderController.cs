@@ -43,6 +43,7 @@ namespace MedicalApplicationAPI.Controllers
         public IActionResult PostOrder([FromBody] Order order)
         {
             _dbcontext.orderList.Add(order);
+            _dbcontext.SaveChanges();
             return Ok();
         }
 
