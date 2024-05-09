@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "d/JUG/EC2kjRHEb5Vz/hw3e+Eg16OLYev59H9K5YTuU=",
+  "Source": "GroceryStoreApplicationDB",
+  "BasePath": "_content/GroceryStoreApplicationDB",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -13,10 +13,12 @@
         </div>
 
         <div id="registerPage">
-            <input type="text" placeholder="UserName">
-            <input type="number" placeholder="PhoneNumber">
-            <input type="number" placeholder="Balance">
-            <button>Register</button>
+            <input id="nameInput" type="text" placeholder="UserName">
+            <input id="phoneInput" type="text" placeholder="PhoneNumber">
+            <input id="balanceInput" type="number" placeholder="Balance">
+            <input id="fileInput" type="file">
+            <button onclick="Register()">Register</button>
+            <button onclick="Display()">Display</button>
         </div>
 
         <div id="loginPage">
@@ -25,11 +27,61 @@
         </div>
 
         <div id="menu">
-            <button>Balance Check</button>
-            <button>Recharge</button>
-            <button>Travel History</button>
-            <button>Travel</button>
-            <button>Exit</button>
+            <button class="menuButtons" onclick="BalanceCheck()">Balance Check</button>
+            <button class="menuButtons" onclick="Recharge()">Recharge</button>
+            <button class="menuButtons" onclick="ShowTravelHistory()">Travel History</button>
+            <button class="menuButtons" onclick="ShowTicketDetails()">Travel</button>
+            <button class="menuButtons" onclick="Exit()">Exit</button>
         </div>
+
+        <div id="message"></div>
+
+        <table id="travelTable">
+            <thead>
+                <tr>
+                    <th>Travel ID</th>
+                    <th>Card Number</th>
+                    <th>From location</th>
+                    <th>To location</th>
+                    <th>Date</th>
+                    <th>Travel cost</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!--table values inserted here-->
+            </tbody>
+        </table>
+
+        <div id="ticketTable">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>From location</th>
+                        <th>To location</th>
+                        <th>Fare</th>
+                    </tr>
+                </thead>
+                <tbody id="ticketBody">
+                    <!--table values inserted here-->
+                </tbody>
+            </table>
+            <button onclick="downloadCSVFile()">Download CSV file</button>
+        </div>
+
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Card Number</th>
+                    <th>User Name</th>
+                    <th>Phone</th>
+                    <th>Balance</th>
+                    <th>Photo</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!--table values inserted here-->
+            </tbody>
+        </table>
     </body>
 </html>

@@ -1,0 +1,54 @@
+* {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+}
+
+body{
+    background-color: bisque;
+}
+
+#registerPage, #menuPage, #productsTable
+{
+    display: none;
+}
+
+#mainPage
+{
+    width: 30%;
+    margin: 6rem auto;
+    padding: 20px;
+    background-color: rgb(170, 170, 255);
+    border-radius: 3rem;
+}
+
+button, input
+{
+    padding: .6rem;
+    margin: .6rem;
+    border: none;
+    border-radius: 1rem;
+}
+#addressInput
+{
+    border-radius: 1rem;   
+}
+
+button{
+    background-color: bisque;
+}
+button:hover
+{
+    background-color: rgb(216, 216, 255);
+}
+.menuButtons
+{
+    background-color: rgb(170, 170, 255);
+    border-radius: 2rem;
+    padding: 2rem;
+    width: 15%;
+}
+
+#loginPage, #registerPage
+{
+    margin-left: 4rem;
+
+}

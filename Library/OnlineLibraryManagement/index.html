@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Syncfusion Library</title>
+        <link rel="stylesheet" href="Stylesheet/style.css">
+        <script type="text/javascript" src="Typescript/script.js"></script>
+    </head>
+
+    <body>
+        <div id="mainPage">
+            <h1>Online Library Management</h1>
+            <button onclick="RegisterPage()">Register</button>
+            <button onclick="LoginPage()">Login</button>
+        </div>
+
+        <div id="registerPage">
+            <input id="nameInput" type="text" placeholder="UserName">
+            <input id="genderInput" type="text" placeholder="Gender">
+            <input id="deptInput" type="text" placeholder="Department">
+            <input id="phoneInput" type="text" placeholder="PhoneNumber">
+            <input id="mailInput" type="text" placeholder="mail">
+            <input id="balanceInput" type="number" placeholder="Balance">
+            <input id="passInput" type="password" placeholder="enter the password"> 
+            <button onclick="Register()">Register</button>
+        </div>
+
+        <div id="loginPage">
+            <input id="email" type="text" placeholder="enter your email">
+            <input id="pass" type="password" placeholder="enter your password">
+            <button onclick="CheckUser()">Login</button>
+        </div>
+
+        <div>
+            <form id="addBook">
+                <input id="bookNameInput" type="text" placeholder="enter book name">
+                <input id="authorNameInput" type="text" placeholder="enter author name">
+                <input id="bookCountInput" type="number" placeholder="enter book count">
+                <input id="fileInput" type="file">
+                <input type="submit">
+            </form>
+        </div>
+
+        <div id="menu">
+            <button class="menuButtons" onclick="BorrowBook()">Borrow Book</button>
+            <button class="menuButtons" onclick="ShowBorrowHistory()">Borrowed History</button>
+            <button class="menuButtons" onclick="ReturnBook()">Return Books</button>
+            <button class="menuButtons" onclick="Recharge()">Wallet Recharge</button>
+            <button class="menuButtons" onclick="Exit()">Exit</button>
+        </div>
+
+        <div id="message"></div>
+
+        <div id="borrowBook">
+            <input id="bookInput" type="text" placeholder="enter bookid">
+        </div>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Borrow ID</th>
+                    <th>Book ID</th>
+                    <th>User ID</th>
+                    <th>Borrowed Date</th>
+                    <th>Book Count</th>
+                    <th>Status</th>
+                    <th>Paid fine amount</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!--table values inserted here-->
+            </tbody>
+        </table>
+        <div id="borrowBook">
+            <table>
+                <thead>
+                    <th>BookID</th>
+                    <th>BookName</th>
+                    <th>AuthorName</th>
+                    <th>BookCount</th>
+                    <th>Action</th>
+                </thead>
+                <tbody id="bookBody">
+
+                </tbody>
+            </table>
+
+            <div id="showCount">
+                <input type="number" id="bookCount" placeholder="enter book count">
+                <button onclick="Book()">Book</button>
+            </div>
+        </div>
+    </body>
+</html>

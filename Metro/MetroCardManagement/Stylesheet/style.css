@@ -1,4 +1,37 @@
-#registerPage, #loginPage, #menu
+* {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+#registerPage, #loginPage, #menu, #travelTable, #ticketTable, #userTable
 {
     display: none;
+}
+#image
+{
+    width: 100%;
+}
+td, th
+{
+    border: solid .08rem rgb(175, 81, 175);
+    width: 10rem;
+}
+button, input
+{
+    margin: .5rem;
+    padding: .5rem;
+}
+button {
+    background-color:thistle;
+    width: 7rem;
+}
+
+.menuButtons {
+    background-color:thistle;
+    padding: 1rem;
+    font-size: large;
+    width: 20%;
+}
+button:hover
+{
+    background-color: ghostwhite;
 }

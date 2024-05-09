@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Online Grocery Store</title>
+        <link rel="stylesheet" href="Stylesheet/style.css">
+    </head>
+
+    <body>
+        <div id="mainPage">
+            <h2>Grocery Store</h2>
+            <button onclick="LoginPage()">Login</button>
+            <button onclick="RegisterPage()">Register</button>
+            <div id="loginPage">
+                <label>Username </label>
+                <input id="mailValue" type="text" placeholder="enter mail"><br>
+                <label>Password </label>
+                <input id="passValue" type="text" placeholder="password"><br>
+                <button onclick="Login()">Login</button>
+            </div>
+            <div id="registerPage">
+                <form id="form">
+                    <label>UserName </label>
+                    <input id="nameInput" type="text" placeholder="username"><br>
+                    <label>Email </label>
+                    <input id="mailInput" type="text" placeholder="email"><br>
+                    <label>Password </label>
+                    <input id="passInput" type="text" placeholder="password"><br>
+                    <label>Phone</label>
+                    <input id="phoneInput" type="text" placeholder="phone"><br>
+                    <textarea rows="5" cols="38" id="addressInput">Enter the address..</textarea><br>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="menuPage">
+            <button class="menuButtons">Home</button>
+            <button class="menuButtons">Products</button>
+            <button class="menuButtons">Recharge</button>
+            <button class="menuButtons">Check Balance</button>
+            <button class="menuButtons">Order History</button>
+            <button class="menuButtons">Cart View</button>
+            <button onclick="MainPage()">Logout</button>
+        </div>
+
+        <div id="messageBox"></div>
+
+        <table id="productsTable">
+            <thead>
+                <tr>
+                    <th>ProdID</th>
+                    <th>ProductName</th>
+                    <th>QuantityAvailable</th>
+                    <th>UnitPrice</th>
+                    <th>PurchaseDate</th>
+                    <th>ExpiryDate</th>
+                    <th>ProductImage</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+        </table>
+
+        <script type="text/javascript" src="Typescript/script.js"></script>
+    </body>
+</html>
